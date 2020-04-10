@@ -1,0 +1,149 @@
+// CONTINuEU at line 101/102
+
+//Layer V
+//Apical Comp 0,2-4
+//Oblique Comp 1
+//Basal 5-7
+//Soma 8
+//Layer II
+//Apical Comp 0,2-3
+//Oblique Comp 1
+//Basal 4-6
+//Soma 7
+
+
+// FeedForward Inputs to Layer II 
+// to e's (seg,rtype 0A-1N,weight,delay)
+
+
+FFtoII(1,0,0.002,0) //0.002
+FFtoII(5,0,0.002,0)
+FFtoII(6,0,0.002,0)
+// to i's (rtype 0A-1N,weight,delay)
+FFtoIL2(0,0.004,0)
+
+
+// FeedForward Inputs to Layer V 
+// to e's (seg,rtype 0A-1N,weight,delay)
+FFtoV(1,0,0.001,5) //0.0001
+FFtoV(6,0,0.001,5)
+FFtoV(7,0,0.001,5)
+// to i's (rtype,weight,delay)
+FFtoIL5(0,0.002,5)
+
+
+
+/****** LATE INPUTS ********/
+// FeedForward Inputs to Layer II 
+// to e's (seg,rtype 0A-1N,weight,delay)
+FF2toII(1,0,0.08,0) //0.005 AMPA
+FF2toII(5,0,0.08,0)
+FF2toII(6,0,0.08,0)
+//FF2toII(1,1,0.005,0) //0.005 NMDA
+//FF2toII(5,1,0.005,0)
+//FF2toII(6,1,0.005,0)
+
+// to i's (rtype 0A-1N,weight,delay)
+FF2toIL2(0,0.08,0) //0.001
+
+// FeedForward Inputs to Layer V 
+// to e's (seg,rtype 0A-1N,weight,delay)
+FF2toV(1,0,0.04,5) //0.02 AMPA
+FF2toV(6,0,0.04,5)
+FF2toV(7,0,0.04,5)
+//FF2toV(1,1,0.002,5) //0.02 NMDA
+//FF2toV(6,1,0.002,5)
+//FF2toV(7,1,0.002,5)
+// to i's (rtype,weight,delay)
+FF2toIL5(0,0.04,5)  //0.001
+//TRY TO WEAKEN THESE AGAIN??
+//********************//
+
+// FeedBack Inputs to Layer II/V 
+// to e's (seg,rtype 0A-1N,weight,delay)
+
+FBtoII(3,1,0.004,0)//0.004 NMDA
+FBtoV(4,1,0.004,0)//.0025
+FBtoII(3,0,0.004,0)//0.004 AMPA
+FBtoV(4,0,0.004,0)//.0025
+
+// to i's (rtype 0A-1N,weight,delay)
+FBtoIL2(0,0.002,0)
+FBtoIL2(1,0.002,0)
+
+//////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
+// Usage: VtoV( 1. Max_Weight, 2. Space constant, 3. compartment [0-8] 4. receptor type [0=ampa, 1=nmda],
+// 5. minimum_delay, 6. delay_space_constant )
+
+// Usage: U_XtoX( MinWeight, MaxWeight , target compartment, rtype, MinDelay, MaxDelay )
+
+// Layer II excitatory connections
+// to e's L2 (maxW,Wsc,seg,rtyp 0A-1N,minD,Dsc)
+
+U_IItoII(0.0005,0.001,1,0,1,1.5)
+U_IItoII(0.0001,0.001,5,0,1,1.5)
+U_IItoII(0.0005,0.001,6,0,1,1.5)
+U_IItoII(0.000025,0.0005,1,1,1,1.5)
+U_IItoII(0.000025,0.0005,5,1,1,1.5)
+U_IItoII(0.000025,0.0005,6,1,1,1.5)
+
+// to e's L5
+U_IItoV(0.0000125,0.00025,1,0,3,3.5)
+U_IItoV(0.0000125,0.00025,6,0,3,3.5)
+U_IItoV(0.0000125,0.00025,7,0,3,3.5)
+U_IItoV(0.0000125,0.00025,4,0,3,3.5)
+
+
+// Usage: U_XtoILx(Inhib Cell #, MinWeight, MaxWeight, rtype, MinDelay, MaxDelay)
+
+// to i's L2(cell#,maxW,Wsc,pos,rtyp 0A-1N,minD,Dsc)
+U_IItoIL2(
+// HIER GEBLEVEN
+U_IItoIL2(0,0.01,3,3,0,1,3) //WSC WDC =3 0.001
+U_IItoIL2(1,0.01,3,6,0,1,3)
+U_IItoIL2(2,0.01,3,9,0,1,3)
+// to i's L5
+U_IItoIL5(0,0.00025,3,3,0,3,3)
+U_IItoIL5(1,0.00025,3,6,0,3,3)
+U_IItoIL5(2,0.00025,3,9,0,3,3)
+
+// Layer II inhibitory connections
+// to e's L2 (cell#,maxW,Wsc,pos,seg,rtype 2GA-3GB,minD,Dsc)
+for i=0,9{U_IL2toII(i,0.05,5,i, 7, 2,1,5)} //maxW=0.002 WSC=3 GabaA
+for i=0,9{U_IL2toII(i,0.05,5,i, 7, 3,1,5)} // maxW=0 WSC=3 GabaB
+// to e's L5
+U_IL2toV(0,0.001,5,3,4,2,1,5) //0.001 6_1 changed to 0.1 added gabaB
+U_IL2toV(1,0.001,5,6,4,2,1,5)	//WSC/DSC 3->7 NOT BAD
+U_IL2toV(2,0.001,5,9,4,2,1,5)
+//IL2toV(0,0.01,3,3,4,3,1,3) //0.01 added gabaB 0.01
+//IL2toV(1,0.01,3,6,4,3,1,3)	// HELPS GET LATER ACTIVATION
+//IL2toV(2,0.01,3,9,4,3,1,3)	
+// to i's (maxW,Wsc,minD,Dsc,rtype 2GA-3GB)
+U_IL2toIL2(0.002,2,1,2,2)
+
+// Layer V excitatory connections
+// to e's (maxW,Wsc,seg,rtyp 0A-1N,minD,Dsc)
+U_VtoV(0.005,3,6,0,1,3) //0.001 AMPA WSC/DSC=10
+U_VtoV(0.005,3,7,0,1,3)  // 6_1 wsc/dsc 7->10 AGAIN
+U_VtoV(0.005,3,1,0,1,3)	//doesntdomuch?
+U_VtoV(0.0005,3,6,1,1,3) //0.001 NMDA
+U_VtoV(0.0005,3,7,1,1,3)
+U_VtoV(0.0005,3,1,1,1,3)
+// to i's (cell#,maxW,Wsc,pos,rtyp 0A-1N,minD,Dsc)
+U_VtoIL5(0,0.001,3,3,0,1,3) //WSC WDC =3 
+U_VtoIL5(1,0.001,3,6,0,1,3)
+U_VtoIL5(2,0.001,3,9,0, 1,3)
+//HAVEN'T TRIED E-I NMDA
+
+// Layer V inhibitory connections
+// to e's (cell#,maxW,Wsc,pos,seg,rtype 2GA-3GB,minD,Dsc)
+for i=0,9{U_IL5toV(i,0.025,7,i,8,2,1,7)} //maxW=0.025 WSC=3GabaA//6_1 0.025->0.1
+													//doesntdomuch
+for i=0,9{U_IL5toV(i,0.025,7,i, 8, 3,1,7)} // maxW=0.05 WSC=3 GabaB
+// to i's (maxW,Wsc,minD,Dsc,rtype 2GA-3GB)
+U_IL5toIL5(0.002,2,1,2,2)
+
+
+//USING INIT_CORTEX_THRESH.HOC For MAX ... make DEFAULT??
