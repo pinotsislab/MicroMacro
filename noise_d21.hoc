@@ -1,0 +1,114 @@
+begintemplate PNOISE
+public setmean
+objref r, pp
+proc init() {
+pp=new IClamp(0.5)
+pp.dur=5000
+r=new Random($1)
+}
+proc setmean() {
+r.poisson($1)
+r.play(&pp.amp)
+}
+endtemplate PNOISE
+
+objref noisyV[200]
+// Insert Poisson noise into all compartments of the Pyramidal V cells
+proc PnoiseV(){
+j=0
+for i=0,9{ forsec PL5[i].all {noisyV[j]=new PNOISE(j) noisyV[j].setmean($1) j=j+1 } } }
+
+objref noisyII[200]
+// Insert Poisson noise into all compartments of the Pyramidal II/III cells
+proc PnoiseII(){
+j=0
+for i=0,9{ forsec PL2[i].all {noisyII[j]=new PNOISE(j) noisyII[j].setmean($1) j=j+1 } } }
+
+objref noisyIPL5[10]
+// Insert Poisson noise into all compartments of inhibitory LayerV cells
+proc PnoiseIPL5(){
+j=0
+for i=0,9{ IPL5[i].cell {noisyIPL5[j]=new PNOISE(j) noisyIPL5[j].setmean($1) j=j+1 } } }
+
+objref noisyIPL2[10]
+// Insert Poisson noise into all compartments of inhibitory LayerII/III cells
+proc PnoiseIPL2(){
+j=0
+for i=0,9{ IPL2[i].cell {noisyIPL2[j]=new PNOISE(j) noisyIPL2[j].setmean($1) j=j+1 } } }
+
+begintemplate GNOISE
+public setmean
+objref r, pp
+proc init() {
+pp=new IClamp(0.5)
+pp.dur=5000
+r=new Random($1)
+}
+proc setmean() {
+r.normal($1,$2)
+r.play(&pp.amp)
+}
+endtemplate GNOISE
+
+objref GnoisyV[200]
+// Insert Gaussian noise into all compartments of the Pyramidal V cells
+proc GnoiseV(){
+j=0
+for i=0,9{ forsec PL5[i].all {GnoisyV[j]=new GNOISE(j) GnoisyV[j].setmean($1,$2) j=j+1 } } }
+
+objref GnoisyII[200]
+// Insert Gaussian noise into all compartments of the Pyramidal II/III cells
+proc GnoiseII(){
+j=0
+for i=0,9{ forsec PL2[i].all {GnoisyII[j]=new GNOISE(j) GnoisyII[j].setmean($1,$2) j=j+1 } } }
+
+objref GnoisyIPL5[10]
+// Insert Gaussian noise into all compartments of inhibitory LayerV cells
+proc GnoiseIPL5(){
+j=0
+for i=0,9{ IPL5[i].cell {GnoisyIPL5[j]=new GNOISE(j) GnoisyIPL5[j].setmean($1,$2) j=j+1 } } }
+
+objref GnoisyIPL2[10]
+// Insert Gaussian noise into all compartments of inhibitory LayerII/III cells
+proc GnoiseIPL2(){
+j=0
+for i=0,9{ IPL2[i].cell {GnoisyIPL2[j]=new GNOISE(j) GnoisyIPL2[j].setmean($1,$2) j=j+1 } } }
+
+
+begintemplate UNOISE
+public setmean
+objref r, pp
+proc init() {
+pp=new IClamp(0.5)
+pp.dur=5000
+r=new Random($1)
+}
+proc setmean() {
+r.uniform($1,$2)
+r.play(&pp.amp)
+}
+endtemplate UNOISE
+
+objref UnoisyV[200]
+// Insert Uniform noise into all compartments of the Pyramidal V cells
+proc UnoiseV(){
+j=0
+for i=0,0{ forsec PL5[i].all {UnoisyV[j]=new UNOISE(j) UnoisyV[j].setmean($1,$2) j=j+1 } } }
+
+objref UnoisyII[200]
+// Insert Uniform noise into all compartments of the Pyramidal II/III cells
+proc UnoiseII(){
+j=0
+for i=0,0{ forsec PL2[i].all {UnoisyII[j]=new UNOISE(j) UnoisyII[j].setmean($1,$2) j=j+1 } } }
+
+objref UnoisyIPL5[10]
+// Insert Uniform noise into all compartments of inhibitory LayerV cells
+proc UnoiseIPL5(){
+j=0
+for i=0,0{ IPL5[i].cell {UnoisyIPL5[j]=new UNOISE(j) UnoisyIPL5[j].setmean($1,$2) j=j+1 } } }
+
+objref UnoisyIPL2[10]
+// Insert Uniform noise into all compartments of inhibitory LayerII/III cells
+proc UnoiseIPL2(){
+j=0
+for i=0,0{ IPL2[i].cell {UnoisyIPL2[j]=new UNOISE(j) UnoisyIPL2[j].setmean($1,$2) j=j+1 } } }

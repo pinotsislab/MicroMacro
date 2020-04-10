@@ -1,0 +1,43 @@
+// Intitialization file for somatosensory cortex simulation
+
+/*
+These cells are defined above in sj-cortex.hoc:
+
+PL5[10]   10 Layer V Pyramidal Cells
+Apical compartments 0-4
+Basal               5-7
+Soma                 8
+IPL5[3]   3 Layer V inhibitory
+PL2[10]   10 Layer II/III  Pyramidal Cells
+Apical compartments 0-3
+Basal               4-6
+Soma                 7
+IPL2[3]   3 Layer II/III inhibitory
+FF        Feed-forward
+FB        Feed-back
+FF2       Feed-forward
+*/
+
+load_file("nrngui.hoc")
+load_file("jpg-cortex.hoc")
+load_file("wiring_proc_jpg.hoc")
+load_file("noise_jpg.hoc")
+//
+UnoiseV(-0.3,0.3)
+UnoiseII(-0.3,0.3)
+UnoiseIPL5(-0.3,0.3)
+UnoiseIPL2(-0.3,0.3)
+/*
+xpanel("disconnect")
+xbutton("disconnect all","unconnect()")
+xpanel()
+*/
+
+print "Load wiring configuration file. Eg. wiring-config_suprathreshold.hoc "
+
+// Added by Jesse Geerts:
+load_file("wiring-config_suprathresh_jpg.hoc")
+
+//load_file("wiring-config_thresh_nonpercieved")
+
+//load_file("wiring-config_trhesh_percieved")

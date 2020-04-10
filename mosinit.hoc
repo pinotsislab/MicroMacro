@@ -1,0 +1,26 @@
+load_file("nrngui.hoc")
+load_file("init-cortex.hoc")
+
+xpanel("Jones et al. 2007")
+xlabel("Choose a simulation then press Init & Run")
+xlabel("(choose Exit to restart before choosing another simulation")
+xbutton("Wiring configuration for the supra-threshold evoked response","suprathresh()")
+xbutton("Wiring configuration for the non-perceived evoked response","nonperceived()")
+xbutton("Wiring configuration for the perceived evoked response","perceived()")
+xbutton("Exit","quit()")
+xpanel()
+
+proc suprathresh() {
+   load_file("wiring-config_suprathresh.hoc")
+   load_file("demo.ses")
+}
+
+proc nonperceived() {
+   load_file("wiring-config_thresh_nonpercieved.hoc")
+   load_file("demo.ses")
+}
+
+proc perceived() {
+   load_file("wiring-config_thresh_percieved.hoc")
+   load_file("demo.ses")
+}

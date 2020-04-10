@@ -1,0 +1,147 @@
+objectvar save_window_, rvp_
+objectvar scene_vector_[8]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+{pwman_place(5,28,1)}
+{
+xpanel("RunControl", 0)
+v_init = -65
+xvalue("Init","v_init", 1,"stdinit()", 1, 1 )
+xbutton("Init & Run","run()")
+xbutton("Stop","stoprun=1")
+runStopAt = 200
+xvalue("Continue til","runStopAt", 1,"{continuerun(runStopAt) stoprun=1}", 1, 1 )
+runStopIn = 1
+xvalue("Continue for","runStopIn", 1,"{continuerun(t + runStopIn) stoprun=1}", 1, 1 )
+xbutton("Single Step","steprun()")
+t = 160
+xvalue("t","t", 2 )
+tstop = 160
+xvalue("Tstop","tstop", 1,"tstop_changed()", 0, 1 )
+dt = 0.025
+xvalue("dt","dt", 1,"setdt()", 0, 1 )
+steps_per_ms = 40
+xvalue("Points plotted/ms","steps_per_ms", 1,"setdt()", 0, 1 )
+screen_update_invl = 0.05
+xvalue("Scrn update invl","screen_update_invl", 1,"", 0, 1 )
+realtime = 8.34
+xvalue("Real Time","realtime", 0,"", 0, 1 )
+xpanel(43,209)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,170,-21000,29000)
+scene_vector_[2] = save_window_
+{save_window_.view(0, -21000, 170, 50000, 779, 54, 297.6, 161.92)}
+graphList[2].append(save_window_)
+save_window_.save_name("graphList[2].")
+save_window_.addexpr("L2_dipole()", 1, 1, 0.229685, 0.216161, 2)
+save_window_.addexpr("L5_dipole()", 2, 1, 0.601753, 0.295671, 2)
+save_window_.label(0.34107, 0.896827, "MEG (fAm)", 2, 1, 0, 0, 1)
+save_window_.label(0.301158, 0.79531, "Layer contribution", 2, 1, 0, 0, 1)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,170,-2200,2900)
+scene_vector_[3] = save_window_
+{save_window_.view(0, -2200, 170, 5100, 442, 290, 310.08, 178.24)}
+graphList[2].append(save_window_)
+save_window_.save_name("graphList[2].")
+save_window_.addexpr("dset(PL5[0].all)", 2, 1, 0.203158, 0.188936, 2)
+save_window_.addexpr("dset(PL5[0].apical)", 3, 1, 0.197484, 0.359881, 2)
+save_window_.addexpr("dset(PL5[0].basal)", 4, 1, 0.19704, 0.520599, 2)
+save_window_.label(0.220447, 0.924658, "Single Layer 5  cell Diplole (fAm)", 2, 1, 0, 0, 1)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,170,-19000,30000)
+scene_vector_[4] = save_window_
+{save_window_.view(0, -19000, 170, 49000, 441, 59, 309.12, 160)}
+graphList[2].append(save_window_)
+save_window_.save_name("graphList[2].")
+save_window_.addexpr("L2_dipole() + L5_dipole()", 1, 1, 0.187523, 0.124056, 2)
+save_window_.label(0.33519, 0.84715, "MEG (fAm)", 2, 1, 0, 0, 1)
+}
+{
+xpanel("NetStimG[0] at acell_home_(0.5)", 0)
+xlabel("NetStimG[0] at acell_home_(0.5)")
+FeedX[0].pp.MeanInterval = 1
+xvalue("MeanInterval","FeedX[0].pp.MeanInterval", 1,"", 0, 1 )
+FeedX[0].pp.SD = 0.5
+xvalue("SD","FeedX[0].pp.SD", 1,"", 0, 1 )
+FeedX[0].pp.MeanStart = 25
+xvalue("MeanStart","FeedX[0].pp.MeanStart", 1,"", 0, 1 )
+FeedX[0].pp.StartSD = 2.5
+xvalue("StartSD","FeedX[0].pp.StartSD", 1,"", 0, 1 )
+FeedX[0].pp.number = 1
+xvalue("number","FeedX[0].pp.number", 1,"", 0, 1 )
+FeedX[0].pp.noise = 1
+xvalue("noise","FeedX[0].pp.noise", 1,"", 0, 1 )
+FeedX[0].pp.interval = 1.74866
+xvalue("interval","FeedX[0].pp.interval", 0,"", 0, 1 )
+xpanel(26,793)
+}
+{
+xpanel("NetStimG[1] at acell_home_(0.5)", 0)
+xlabel("NetStimG[1] at acell_home_(0.5)")
+FeedX[1].pp.MeanInterval = 1
+xvalue("MeanInterval","FeedX[1].pp.MeanInterval", 1,"", 0, 1 )
+FeedX[1].pp.SD = 1
+xvalue("SD","FeedX[1].pp.SD", 1,"", 0, 1 )
+FeedX[1].pp.MeanStart = 70
+xvalue("MeanStart","FeedX[1].pp.MeanStart", 1,"", 0, 1 )
+FeedX[1].pp.StartSD = 6
+xvalue("StartSD","FeedX[1].pp.StartSD", 1,"", 0, 1 )
+FeedX[1].pp.number = 1
+xvalue("number","FeedX[1].pp.number", 1,"", 0, 1 )
+FeedX[1].pp.noise = 1
+xvalue("noise","FeedX[1].pp.noise", 1,"", 0, 1 )
+FeedX[1].pp.interval = 0.79655
+xvalue("interval","FeedX[1].pp.interval", 0,"", 0, 1 )
+xpanel(304,792)
+}
+{
+xpanel("NetStimG[2] at acell_home_(0.5)", 0)
+xlabel("NetStimG[2] at acell_home_(0.5)")
+FeedX[2].pp.MeanInterval = 1
+xvalue("MeanInterval","FeedX[2].pp.MeanInterval", 1,"", 0, 1 )
+FeedX[2].pp.SD = 1
+xvalue("SD","FeedX[2].pp.SD", 1,"", 0, 1 )
+FeedX[2].pp.MeanStart = 135
+xvalue("MeanStart","FeedX[2].pp.MeanStart", 1,"", 0, 1 )
+FeedX[2].pp.StartSD = 7
+xvalue("StartSD","FeedX[2].pp.StartSD", 1,"", 0, 1 )
+FeedX[2].pp.number = 1
+xvalue("number","FeedX[2].pp.number", 1,"", 0, 1 )
+FeedX[2].pp.noise = 1
+xvalue("noise","FeedX[2].pp.noise", 1,"", 0, 1 )
+FeedX[2].pp.interval = 1.70261
+xvalue("interval","FeedX[2].pp.interval", 0,"", 0, 1 )
+xpanel(575,793)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,170,-800,900)
+scene_vector_[5] = save_window_
+{save_window_.view(0, -800, 170, 1700, 784, 287, 297.6, 175.36)}
+graphList[2].append(save_window_)
+save_window_.save_name("graphList[2].")
+save_window_.addexpr("dset(PL2[0].apical)", 3, 1, 0.250479, 0.272205, 2)
+save_window_.addexpr("dset(PL2[0].basal)", 4, 1, 0.253674, 0.435144, 2)
+save_window_.addexpr("dset(PL2[0].all)", 2, 1, 0.253674, 0.344089, 2)
+save_window_.label(0.246006, 0.915335, "Single Layer 2/3 cell Dipole (fAm)", 2, 1, 0, 0, 1)
+}
+{
+save_window_ = new Graph(0)
+save_window_.size(0,160,-100,60)
+scene_vector_[6] = save_window_
+{save_window_.view(0, -100, 160, 160, 443, 540, 306.24, 172.48)}
+graphList[0].append(save_window_)
+save_window_.save_name("graphList[0].")
+save_window_.addvar("PL5[0].soma.v( 0.5 )", 2, 1, 0.8, 0.9, 2)
+save_window_.addexpr("PL2[0].soma.v( 0.5 )", 1, 1, 0.8, 0.9, 2)
+save_window_.label(0.249021, 0.909147, "Somatic Potential (mV)", 2, 1, 0, 0, 1)
+save_window_.label(0.265296, 0.0712626, "Single Layer 2/3 & 5 cells", 2, 1, 0, 0, 1)
+}
+objectvar scene_vector_[1]
+{doNotify()}
